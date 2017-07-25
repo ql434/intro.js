@@ -125,7 +125,8 @@
         }
       }
 
-    } else {
+    } else
+    {
       //use steps from data-* annotations
       var allIntroSteps = targetElm.querySelectorAll('*[data-intro]');
       //if there's no element to intro
@@ -787,7 +788,6 @@
     if (typeof (this._introChangeCallback) !== 'undefined') {
       this._introChangeCallback.call(this, targetElement.element);
     }
-
     var self = this,
         oldHelperLayer = document.querySelector('.introjs-helperLayer'),
         oldReferenceLayer = document.querySelector('.introjs-tooltipReferenceLayer'),
@@ -851,7 +851,16 @@
           oldHelperNumberLayer.innerHTML = targetElement.step;
         }
         //set current tooltip text
-        oldtooltipLayer.innerHTML = targetElement.intro;
+        //oldtooltipLayer.innerHTML = targetElement.intro;
+
+        //oldtooltipLayer.innerHTML = 'aaa';
+
+        if(typeof targetElement.intro==='function'){
+          targetElement.intro(oldtooltipLayer,self._currentStep)
+        }else{
+          tooltipTextLayer.innerHTML = targetElement.intro;
+        }
+
         //set the tooltip position
         oldtooltipContainer.style.display = "block";
         _placeTooltip.call(self, targetElement.element, oldtooltipContainer, oldArrowLayer, oldHelperNumberLayer);
@@ -902,7 +911,15 @@
       arrowLayer.className = 'introjs-arrow';
 
       tooltipTextLayer.className = 'introjs-tooltiptext';
-      tooltipTextLayer.innerHTML = targetElement.intro;
+
+      //tooltipTextLayer.innerHTML = 'aaa1';
+
+      if(typeof targetElement.intro==='function'){
+        targetElement.intro(tooltipTextLayer,self._currentStep)
+      }else{
+        tooltipTextLayer.innerHTML = targetElement.intro;
+      }
+
 
       bulletsLayer.className = 'introjs-bullets';
 
@@ -1794,6 +1811,7 @@
     for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
     return obj3;
   }
+
 
   var introJs = function (targetElm) {
     if (typeof (targetElm) === 'object') {
